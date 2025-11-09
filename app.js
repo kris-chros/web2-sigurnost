@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const app = express();
+require('dotenv').config();
 const externalUrl = process.env.RENDER_EXTERNAL_URL;
 const PORT = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const pug = require('pug');
@@ -18,7 +19,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboard7cat',
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: false, maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,6 +36,12 @@ app.use('/xss', xssRoutes);
 app.use('/nesigurniPodaci', nesigPodaciRoutes);
 
 app.get('/', (req, res) => {
+    res.cookie('demo_xss', 'this-is-a-demo-cookie', {
+        httpOnly: false,                
+        secure: true,                 
+        sameSite: 'lax',                
+        maxAge: 1000 * 60 * 60 * 24     
+    });
     res.render('mainPage');
 });
 
