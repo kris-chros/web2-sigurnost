@@ -6,7 +6,7 @@ const PORT = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 3000
 const pug = require('pug');
 var path = require('path');
 const pgSession = require('connect-pg-simple')(session);
-const db = require('routes/db');
+const db = require('./routes/db');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
