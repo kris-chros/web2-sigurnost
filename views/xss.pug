@@ -1,0 +1,60 @@
+h2 XSS ranjivost - pohranjeni
+div
+    a(href='/') Početna stranica
+div(style='margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; max-width: 400px;')
+    button(type='button' onClick='izbrisi()') Izbriši xss napad
+    script(src='/scripts/brisanje.js')
+br
+br
+div
+    h3 Forum o njezi pasa
+    a(href=`/xss/1` style="margin-right: 10px") Češljanje 
+    a(href=`/xss/2` style="margin-right: 10px") Kupanje
+    a(href=`/xss/3` style="margin-right: 10px") Rezanje noktiju
+br
+div
+    if posts.length
+      each post in posts
+        article(style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;")
+            h3= post.naslovobjave
+            p(style="white-space: pre-line")!= post.tekstobjave
+            small Objavio korisnik #{post.imekorisnika}
+    else 
+      p Još nema objava.
+br
+div
+    form(action=`/xss/${brT}` method='POST' style='margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem; max-width: 400px;')
+        div(style='display: flex; align-items: center; gap: 0.5rem;')  
+            label(for='ranjivost') Ranjivost uključena: 
+            input(
+                type='checkbox'
+                name='ranjivost'
+                checked
+            )
+        div
+            label(for='name') Ime (maksimalno 15 znakova): 
+            input(
+                type='text'
+                name='name'
+                maxlength='15'
+                required
+            )
+        div
+            label(for='naslov') Naslov objave: 
+            input(
+                type='text'
+                name='naslov'
+                required
+            )
+        div
+            label(for='tekst') Tekst poruke: 
+            textarea(
+                type='text'
+                name='tekst'
+                maxLength='400'
+                required
+                rows='5'
+                cols='50'
+            )
+        button(type='submit' style='width: fit-content; align-self: flex-start;') Submit
+br
