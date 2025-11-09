@@ -1,0 +1,53 @@
+h2 Ranjivost nesigurne pohrane podataka - loš algoritam za šifriranje
+div
+    a(href='/') Početna stranica
+br
+div
+    h3 Registracija
+div
+    form(action=`/nesigurniPodaci` method='POST' style='margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem; max-width: 400px;')
+        div 
+            label(for='ranjivost') Ranjivost uključena: 
+            input(
+                type='checkbox'
+                name='ranjivost'
+                checked
+            )
+        div
+            label(for='ime') Ime: 
+            input(
+                type='text'
+                name='ime'
+                maxlength='15'
+                required
+            )
+        div
+            label(for='prezime') Prezime: 
+            input(
+                type='text'
+                name='prezime'
+                maxlength='15'
+                required
+            )
+        div    
+            label(for='email') Email: 
+            input(
+                type='email'
+                name='email'
+                required
+            )
+        div
+            label(for='lozinka') Lozinka: 
+            input(
+                type='password'
+                name='lozinka'
+                required
+            )
+        div 
+            button(type='submit' style='width: fit-content; align-self: flex-start;') Submit 
+br
+if formData
+    h3 Što bi napadač otkrio ulaskom u bazu podataka:
+    p Email: #{formData.eHash}
+    p Ime, prezime i email: #{formData.encryptedData}
+    p Lozinka: #{formData.hashedPass}
