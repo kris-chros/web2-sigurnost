@@ -1,0 +1,22 @@
+{
+  "name": "sigurnost",
+  "version": "1.0.0",
+  "description": "prikaz tehnika sigurnosnih napada",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run clean; tsc; npm run copy-views; npm run copy-views",
+    "clean": "rm -rf dist",
+    "copy-views": "cp -r src/views/ dist/views/",
+    "start": "node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "express-session": "^1.18.2",
+    "pg-promise": "^12.2.0",
+    "pug": "^3.0.3"
+  }
+}
