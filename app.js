@@ -5,14 +5,20 @@ const externalUrl = process.env.RENDER_EXTERNAL_URL;
 const PORT = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const pug = require('pug');
 var path = require('path');
+const pgSession = require('connect-pg-simple')(session);
+const db = require('./db');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(session({
-  secret: '$2b$10$NH13wREDvbnuRLEOfQC25.8LKfbhaM9ZnweUV0lTiFy7E9KkPPIWW',
+  store: new pgSession({
+    conString: db
+  }),
+  secret: process.env.SESSION_SECRET || 'keyboard7cat',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,7 +42,7 @@ if(externalUrl){
     const hostname = '0.0.0.0';
     app.listen(PORT, hostname, (error) =>{
         if(!error){
-            console.log(`Server is Successfully Running at http://${hostname}:${port}/ and from outside on ${externalUrl}`);
+            console.log(`Server is Successfully Running at http://${hostname}:${PORT}/ and from outside on ${externalUrl}`);
         } else {
             console.log("Error occurred, server can't start", error);
             }
