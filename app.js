@@ -17,7 +17,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboard7cat',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+  cookie: { httpOnly: false, maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
